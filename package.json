@@ -1,0 +1,25 @@
+{
+  "name": "EventManagementServer",
+  "version": "1.0.0",
+  "description": "Event Management Server developed in Node Js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snehalPatil29/EventManagementServer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/snehalPatil29/EventManagementServer/issues"
+  },
+  "homepage": "https://github.com/snehalPatil29/EventManagementServer#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "joi": "^13.4.0",
+    "mongoose": "^5.2.0"
+  }
+}
