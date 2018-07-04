@@ -18,8 +18,13 @@
   },
   "homepage": "https://github.com/snehalPatil29/EventManagementServer#readme",
   "dependencies": {
+    "bcrypt": "^2.0.1",
     "express": "^4.16.3",
+    "generate-password": "^1.4.0",
     "joi": "^13.4.0",
-    "mongoose": "^5.2.0"
+    "lodash": "^4.17.10",
+    "mongoose": "^5.2.0",
+    "nodemailer": "^4.6.7",
+    "nodemon": "^1.17.5"
   }
 }
