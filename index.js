@@ -8,6 +8,7 @@ const attendance = require('./routes/attendance');
 const event = require('./routes/event');
 const session = require('./routes/session');
 const userProfile = require('./routes/userProfile');
+const sponsor = require('./routes/sponsor');
 
 const registration = require('./routes/registrationResponse')
 mongoose.connect('mongodb://snehal.patil:espl123@ds227171.mlab.com:27171/eventmanagementapp')
@@ -24,6 +25,7 @@ app.use('/api/userProfile',userProfile);
 app.use('/api/registration', registration);
 app.use('/api/attendee', attendee);
 app.use('/api/attendance', attendance);
+app.use('/api/sponsor', sponsor);
 //app.use(error);  //central error handling using express middleware
 
 
