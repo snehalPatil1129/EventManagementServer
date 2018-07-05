@@ -5,7 +5,7 @@ const _ = require('lodash');
 const { Sessions, validateSession } = require('../models/session')
 
 router.get('/', async (req, res) => {
-    const sessions = await Sessions.find().sort('eventName');
+    const sessions = await Sessions.find().populate('event');
     res.send(sessions);
 });
 
@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
     const { error } = validateSession(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    var session = new Sessions(_.pick(req.body, ['sessionName', 'eventId', 'speakers', 'volunteers', 'description', 'sessionType',
+    var session = new Sessions(_.pick(req.body, ['sessionName', 'event', 'speakers', 'volunteers', 'description', 'sessionType',
         'sessionCapacity', 'startTime', 'endTime', 'isBreak', 'isRegistrationRequired']))
 
     session = await session.save();
@@ -26,7 +26,7 @@ router.put('/:id', async (req, res) => {
     if (error) return res.status(400).send(error.details[0].message);
 
     session = await Sessions.findByIdAndUpdate(req.params.id,
-        _.pick(req.body, ['sessionName', 'eventId', 'speakers', 'volunteers', 'description', 'sessionType',
+        _.pick(req.body, ['sessionName', 'event', 'speakers', 'volunteers', 'description', 'sessionType',
             'sessionCapacity', 'startTime', 'endTime', 'isBreak', 'isRegistrationRequired'])
         ,{ new: true })
 
