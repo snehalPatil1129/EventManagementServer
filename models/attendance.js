@@ -2,30 +2,35 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 
 const Attendance = mongoose.model('Attendance', new mongoose.Schema({
-    eventId : {
-        type: String,
-        required: true
+    event : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Events'
     },
-    sessionId : {
-        type: String,
-        required: true
+    session : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Sessions'
     },
-    userId : {
-        type: String,
-        required: true
+    attendee : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Attendee'
     },
     scannedBy : {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Attendee'
+    },
+    time :{
+        type : String,
+        required : true
     }
 }));
 
 function validateAttendance(attendance) {
     const schema = {
-        eventId : Joi.string().required(),
-        sessionId : Joi.string().required(),
-        userId : Joi.string().required(),
-        scannedBy : Joi.string().required(),
+        event : Joi.required(),
+        session : Joi.required(),
+        attendee : Joi.required(),
+        scannedBy : Joi.required(),
+        time : Joi.string().required(),
     };
     return Joi.validate(attendance, schema);
 }

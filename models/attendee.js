@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
+const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt');
+const generator = require('generate-password');
 
 const Attendee = mongoose.model('Attendee', new mongoose.Schema({
     firstName: {
@@ -16,8 +19,7 @@ const Attendee = mongoose.model('Attendee', new mongoose.Schema({
         unique : true
     },
     password : {
-        type: String,
-        required: true
+        type: String
     },
     contact : {
         type : Number,
@@ -37,7 +39,7 @@ function validateAttendee(attendee) {
         firstName : Joi.string().required(),
         lastName : Joi.string().required(),
         email : Joi.string().required(),
-        password : Joi.string().required(),
+        //password : Joi.string().required(),
         contact : Joi.number().required(),
         profiles : Joi.array(),
         roleName : Joi.string(),
@@ -49,5 +51,49 @@ function validateAttendee(attendee) {
     };
     return Joi.validate(attendee, schema);
 }
+
+function validateAuthUser(user) {
+    const schema = {
+        email: Joi.string().required().email(),
+        password : Joi.string().required().min(6)
+    };
+    return Joi.validate(user, schema);
+}
+
+async function generatePassword() {
+    let password = await generator.generate({
+        length: 6,
+        numbers: true
+    });
+    const salt = await bcrypt.genSalt(10);
+    let hashedPassword = await bcrypt.hash(password, salt);
+    return { password : password ,hashedPassword : hashedPassword };
+}
+
+async function sendPasswordViaEmail(password , email , name) {
+    try {
+     var transporter = nodemailer.createTransport({
+         service: 'gmail',
+         auth: {
+           user: 'snehal.eternus@gmail.com',
+           pass: 'espl@123'
+         }
+       });
+       var mailOptions = {
+         from: 'snehal.eternus@gmail.com',
+         to: email,
+         subject: 'Password for User ' + name +' for Event management Application',
+         html :'<p>Hello ' + name + ',</p><p>Greetings from Event management. </p> <p>Your Password for account registered through ' + email + ' is as ' + password + ' .Please Login for better experience .</p>'
+     };
+       const emailResponse = transporter.sendMail(mailOptions);
+    }
+    catch (error) {
+     console.log(error.message);
+    }
+ };
+ 
 exports.Attendee = Attendee;
 exports.validateAttendee = validateAttendee;
+exports.validateAuthUser = validateAuthUser;
+exports.generatePassword = generatePassword;
+exports.sendPasswordViaEmail = sendPasswordViaEmail;
