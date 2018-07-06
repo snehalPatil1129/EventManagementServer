@@ -4,45 +4,67 @@ const mongoose = require('mongoose');
 const _ = require('lodash');
 const { Sponsors, validateSponsor } = require('../models/sponsor');
 
- 
+
 router.get('/', async (req, res) => {
-    const sponsors = await Sponsors.find();
-    res.send(sponsors);
+    try {
+        const sponsors = await Sponsors.find();
+        res.send(sponsors);
+    } catch (error) {
+        res.send(error.message);
+    }
+
 });
-   
+
 router.post('/', async (req, res) => {
-    const { error } = validateSponsor(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    try {
+        const { error } = validateSponsor(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
 
-   var sponsor = new Sponsors(_.pick(req.body,['name','description','websiteURL','imageURL','category']))
-     
-    sponsor = await sponsor.save();
-    res.send(sponsor);
+        var sponsor = new Sponsors(_.pick(req.body, ['name', 'description', 'websiteURL', 'imageURL', 'category']))
+        sponsor = await sponsor.save();
+        res.send(sponsor);
+    } catch (error) {
+        res.send(error.message);
+    }
+
 })
 
-router.put('/:id', async(req ,res)=>{
+router.put('/:id', async (req, res) => {
+    try {
+        const { error } = validateSponsor(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
 
-    const { error } = validateSponsor(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+        sponsor = await Sponsors.findByIdAndUpdate(req.params.id,
+            _.pick(req.body, ['name', 'description', 'websiteURL', 'imageURL', 'category'])
+            , { new: true })
+        if (!sponsor) return res.status(404).send('The Sponsor with the given ID was not found.');
 
-    sponsor = await Sponsors.findByIdAndUpdate(req.params.id,
-      _.pick(req.body,['name','description','websiteURL','imageURL','category'])
-    , {new : true})
-   
-   if(!sponsor) return res.status(404).send('The Sponsor with the given ID was not found.');
+        res.send(sponsor)
+    } catch (error) {
+        res.send(error.message);
+    }
 
-   res.send(sponsor)
 })
 
-router.get('/:id', async(req ,res)=>{
-    const sponsor = await Sponsors.findById(req.params.id);
-    if(!sponsor) return res.status(404).send('The Sponsor with the given ID was not found.');
-    res.send(sponsor);
+router.get('/:id', async (req, res) => {
+    try {
+        const sponsor = await Sponsors.findById(req.params.id);
+        if (!sponsor) return res.status(404).send('The Sponsor with the given ID was not found.');
+        res.send(sponsor);
+    } catch (error) {
+        res.send(error.message);
+    }
+
 })
 
-router.delete('/:id', async(req,res)=>{
-     const sponsor = await Sponsors.findByIdAndRemove(req.params.id);
-     if(!sponsor) return res.status(404).send('The Sponsor with the given ID was not found.');
-      res.send(sponsor);
+router.delete('/:id', async (req, res) => {
+    try {
+        const sponsor = await Sponsors.findByIdAndRemove(req.params.id);
+        if (!sponsor) return res.status(404).send('The Sponsor with the given ID was not found.');
+        res.send(sponsor);
+    } catch (error) {
+        res.send(error.message);
+    }
+
 })
 module.exports = router;
