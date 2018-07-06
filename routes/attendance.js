@@ -5,17 +5,17 @@ const { Attendance, validateAttendance } = require('../models/attendance');
 const _ = require('lodash');
 
 router.get('/', async (req, res) => {
-    try{
+    try {
         const result = await Attendance
-                                        .find()
-                                        .populate('attendee', 'firstName lastName')
-                                        .populate('event' ,'eventName')
-                                        .populate('session' ,'sessionName');
+            .find()
+            .populate('attendee', 'firstName lastName')
+            .populate('event', 'eventName')
+            .populate('session', 'sessionName');
         res.send(result);
     }
-   catch (error) {
-    res.send(error.message);
-   }
+    catch (error) {
+        res.send(error.message);
+    }
 });
 
 router.post('/', async (req, res) => {
@@ -23,24 +23,22 @@ router.post('/', async (req, res) => {
         const { error } = validateAttendance(req.body);
         if (error) return res.status(404).send(error.details[0].message);
 
-        const attendance = new Attendance(_.pick(req.body, ['attendee', 'event' , 'session' , 'scannnedBy' , 'time' ]));
+        const attendance = new Attendance(_.pick(req.body, ['attendee', 'event', 'session', 'scannnedBy', 'time']));
         const result = await attendance.save();
         res.send(result);
     }
     catch (error) {
-        console.log('error :', error.message);
         res.send(error.message);
     }
 });
 
-router.delete('/:id',async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const result = await Attendance.findByIdAndRemove(req.params.id);
         if (!result) return res.status(404).send('not found');
         res.send(result);
     }
     catch (error) {
-        console.log('error :', error.message);
         res.send(error.message);
     }
 });

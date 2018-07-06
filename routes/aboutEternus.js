@@ -2,48 +2,70 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const _ = require('lodash');
-const { AboutEternus , validateAboutEternus } = require('../models/staticPages');
- 
+const { AboutEternus, validateAboutEternus } = require('../models/staticPages');
+
 router.get('/', async (req, res) => {
-    const aboutEternus = await AboutEternus.find();
-    res.send(aboutEternus);
+    try {
+        const aboutEternus = await AboutEternus.find();
+        res.send(aboutEternus);
+    } catch (error) {
+        res.send(error.message);
+    }
 });
 
 router.post('/', async (req, res) => {
-    const { error } = validateAboutEternus(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    try {
+        const { error } = validateAboutEternus(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
 
-   var aboutEternusInfo = new AboutEternus(_.pick(req.body,['info','url']))
-     
-    aboutEternusInfo = await aboutEternusInfo.save();
-    res.send(aboutEternusInfo);
+        var aboutEternusInfo = new AboutEternus(_.pick(req.body, ['info', 'url']))
+
+        aboutEternusInfo = await aboutEternusInfo.save();
+        res.send(aboutEternusInfo);
+    } catch (error) {
+        res.send(error.message);
+    }
+
 });
 
-router.put('/:id', async(req ,res)=>{
+router.put('/:id', async (req, res) => {
+    try {
+        const { error } = validateAboutEternus(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
 
-    const { error } = validateAboutEternus(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+        aboutEternusInfo = await AboutEternus.findByIdAndUpdate(req.params.id,
+            _.pick(req.body, ['info', 'url'])
+            , { new: true })
 
-    aboutEternusInfo = await AboutEternus.findByIdAndUpdate(req.params.id,
-      _.pick(req.body,['info','url'])
-    , {new : true})
-   
-   if(!aboutEternusInfo) return res.status(404).send('The About Eternus Information with the given ID was not found.');
+        if (!aboutEternusInfo) return res.status(404).send('The About Eternus Information with the given ID was not found.');
 
-   res.send(aboutEternusInfo)
+        res.send(aboutEternusInfo);
+    } catch (error) {
+        res.send(error.message);
+    }
+
 });
 
-router.get('/:id', async(req ,res)=>{
-    const aboutEternusInfo = await AboutEternus.findById(req.params.id);
-    if(!aboutEternusInfo) return res.status(404).send('The About Eternus Information with the given ID was not found.');
-    res.send(aboutEternusInfo);
+router.get('/:id', async (req, res) => {
+    try {
+        const aboutEternusInfo = await AboutEternus.findById(req.params.id);
+        if (!aboutEternusInfo) return res.status(404).send('The About Eternus Information with the given ID was not found.');
+        res.send(aboutEternusInfo);
+    } catch (error) {
+        res.send(error.message);
+    }
+
 });
 
-router.delete('/:id', async(req,res)=>{
-     const aboutEternusInfo = await AboutEternus.findByIdAndRemove(req.params.id);
-     if(!aboutEternusInfo) return res.status(404).send('The About Eternus Information with the given ID was not found.');
+router.delete('/:id', async (req, res) => {
+    try {
+        const aboutEternusInfo = await AboutEternus.findByIdAndRemove(req.params.id);
+        if (!aboutEternusInfo) return res.status(404).send('The About Eternus Information with the given ID was not found.');
 
-      
-      res.send(aboutEternusInfo);
+        res.send(aboutEternusInfo);
+    } catch (error) {
+        res.send(error.message);
+    }
+
 });
 module.exports = router;

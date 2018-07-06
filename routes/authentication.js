@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
         res.send(validPassword);
     }
     catch (error) {
-        console.log('error', error)
+        res.send(error.message);
     }
 });
 
@@ -46,7 +46,7 @@ router.post('/forgotPassword/:email' , async (req, res) => {
         const emailResult = await sendPasswordViaEmail(password, user.email, name);
     }
     catch (error) {
-        console.log(error);
+        res.send(error.message);
     }
 })
 
