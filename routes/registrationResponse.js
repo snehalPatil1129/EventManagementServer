@@ -5,17 +5,17 @@ const { RegistrationResponse, validateRegistrationResponse } = require('../model
 const _ = require('lodash');
 
 router.get('/', async (req, res) => {
-    try{
+    try {
         const registrations = await RegistrationResponse
-                                        .find()
-                                        .populate('attendee', 'firstName lastName')
-                                        .populate('event' ,'eventName')
-                                        .populate('session' ,'sessionName');
+            .find()
+            .populate('attendee', 'firstName lastName')
+            .populate('event', 'eventName')
+            .populate('session', 'sessionName');
         res.send(registrations);
     }
-   catch (error) {
-    res.send(error.message);
-   }
+    catch (error) {
+        res.send(error.message);
+    }
 });
 
 router.post('/', async (req, res) => {
@@ -28,7 +28,6 @@ router.post('/', async (req, res) => {
         res.send(result);
     }
     catch (error) {
-        console.log('error :', error.message);
         res.send(error.message);
     }
 });
@@ -40,7 +39,6 @@ router.delete('/:id',async (req, res) => {
         res.send(result);
     }
     catch (error) {
-        console.log('error :', error.message);
         res.send(error.message);
     }
 });

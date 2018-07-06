@@ -28,7 +28,6 @@ router.post('/', async (req, res) => {
         res.send(result);
     }
     catch (error) {
-        console.log('error :', error.message);
         res.send(error.message);
     }
 });
@@ -40,7 +39,6 @@ router.delete('/:id',async (req, res) => {
         res.send(result);
     }
     catch (error) {
-        console.log('error :', error.message);
         res.send(error.message);
     }
 });
