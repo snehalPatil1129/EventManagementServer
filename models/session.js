@@ -6,9 +6,9 @@ const Sessions = mongoose.model('Sessions', new mongoose.Schema({
         type : String,
         required : true
     },
-    eventId : {
-        type : String,
-        required : true
+    event: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Events'
     },
     speakers :{
         type : Array,
@@ -31,7 +31,7 @@ const Sessions = mongoose.model('Sessions', new mongoose.Schema({
 function validateSession(session) {
     const schema = {
         sessionName : Joi.string().required(),
-        eventId : Joi.string().required(),
+        event : Joi.required(),
         speakers  : Joi.array(),
         volunteers  : Joi.array(),
         room : Joi.string(),
