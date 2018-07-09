@@ -12,17 +12,14 @@ router.post('/', async (req, res) => {
         const { error } = validateAuthUser(req.body);
         if (error) return res.status(404).send(error.details[0].message);
 
-        let user = await Attendee.findOne({email : req.body.email});
-        if(!user) return res.status(404).send("Invalid Email/Password...");
-        
-        const validPassword = await bcrypt.compare(req.body.password, user.password);  //return a boolean
-        if(!validPassword) return res.status(404).send("Invalid Email/Password...");
+        let user = await Attendee.findOne({ email: req.body.email });
+        if (!user) return res.status(404).send("Invalid Email/Password...");
 
+        const validPassword = await bcrypt.compare(req.body.password, user.password);  //return a boolean
+        if (!validPassword) return res.status(404).send("Invalid Email/Password...");
         //steps remaining
         //1. generate token and store in headers
-    
         //const token = user.generateAuthToken(); 
-
         res.send(validPassword);
     }
     catch (error) {
@@ -30,18 +27,18 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/forgotPassword/:email' , async (req, res) => {
+router.post('/forgotPassword/:email', async (req, res) => {
     try {
-        let user = await Attendee.findOne({email : req.params.email});
-        if(!user) return res.status(404).send("Invalid Email !!! no user registered ..");
+        let user = await Attendee.findOne({ email: req.params.email });
+        if (!user) return res.status(404).send("Invalid Email !!! no user registered ..");
 
-        const { password , hashedPassword } = await generatePassword();
-        const result = await Attendee.update({ _id : user._id},{ 
-            $set : {
-               password : hashedPassword
+        const { password, hashedPassword } = await generatePassword();
+        const result = await Attendee.update({ _id: user._id }, {
+            $set: {
+                password: hashedPassword
             }
         });
-        let name =  user.firstName + ' ' + user.lastName;
+        let name = user.firstName + ' ' + user.lastName;
         res.send(result);
         const emailResult = await sendPasswordViaEmail(password, user.email, name);
     }
