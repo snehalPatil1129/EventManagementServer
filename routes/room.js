@@ -7,7 +7,7 @@ const { Rooms, validateRoom } = require('../models/room');
 
 router.get('/', async (req, res) => {
     try {
-        const rooms = await Rooms.find();
+        const rooms = await Rooms.find().populate('event');
         res.send(rooms);
     }
     catch (error) {
@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
         const { error } = validateRoom(req.body);
         if (error) return res.status(400).send(error.details[0].message);
 
-        var room = new Rooms(_.pick(req.body, ['roomName', 'capacity', 'bufferCapacity', 'availableServices']))
+        var room = new Rooms(_.pick(req.body, ['event','roomName', 'capacity', 'bufferCapacity', 'availableServices']))
         room = await room.save();
         res.send(room);
     }
@@ -35,7 +35,7 @@ router.put('/:id', async (req, res) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         room = await Rooms.findByIdAndUpdate(req.params.id,
-            _.pick(req.body, ['roomName', 'capacity', 'bufferCapacity', 'availableServices'])
+            _.pick(req.body, ['event','roomName', 'capacity', 'bufferCapacity', 'availableServices'])
             , { new: true })
 
         if (!room) return res.status(404).send('The Room with the given ID was not found.');
