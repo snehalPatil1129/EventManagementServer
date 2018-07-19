@@ -18,7 +18,7 @@ const QuestionForms = mongoose.model('QuestionForms', new mongoose.Schema({
         required : true
     },
     formData : {
-        type : Object,
+        type : Array,
         required : true
     }
 }));

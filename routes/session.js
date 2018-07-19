@@ -71,4 +71,15 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
+//get Sessions list by event id
+
+router.get('/getSessions/:id' , async(req , res) => {
+    try {
+            const sessionList = await Sessions.find().where('eventId').equals(req.params.id);
+            res.send(sessionList);
+    } catch (error) {
+        res.send(error.message);
+    }
+})
+
 module.exports = router;

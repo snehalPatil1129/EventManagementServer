@@ -14,6 +14,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+    try {
+        const attendee = await Attendee.findById(req.params.id);
+        if (!attendee) return res.status(404).send('The attendee with the given ID was not found.');
+        res.send(attendee);
+    }
+    catch (error) {
+        res.send(error.message);
+    }
+})
+
 router.post('/', async (req, res) => {
     try {
         const { password, hashedPassword } = await generatePassword();
@@ -21,6 +32,7 @@ router.post('/', async (req, res) => {
         if (error) return res.status(404).send(error.details[0].message);
 
         req.body.password = hashedPassword;
+        //req.body.password = password;
         const attendee = new Attendee(_.pick(req.body, ['firstName', 'lastName', 'email', 'password', 'contact', 'profiles', 'roleName', 'attendeeLabel', 'attendeeCount', 'briefInfo', 'profileImageURL', 'eventId']));
         let name = req.body.firstName + ' ' + req.body.lastName;
         const result = await attendee.save();
@@ -31,6 +43,24 @@ router.post('/', async (req, res) => {
         res.send(error.message);
     }
 });
+
+router.put('/:id', async (req, res) => {
+    try {
+        const { error } = validateAttendee(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
+
+        attendee = await Attendee.findByIdAndUpdate(req.params.id,
+            _.pick(req.body, ['firstName', 'lastName', 'email', 'contact', 'profiles', 'roleName', 'attendeeLabel', 'attendeeCount', 'briefInfo', 'profileImageURL', 'eventId'])
+            , { new: true })
+
+        if (!attendee) return res.status(404).send('The attendee Information with the given ID was not found.');
+
+        res.send(attendee);
+    } catch (error) {
+        res.send(error.message);
+    }
+});
+
 
 router.delete('/:id', async (req, res) => {
     try {
