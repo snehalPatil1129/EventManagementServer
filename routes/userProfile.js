@@ -21,7 +21,8 @@ router.post('/', async (req, res) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         var userProfile = new UserProfiles({
-            profileName: req.body.profileName
+            profileName: req.body.profileName,
+            eventId : req.body.eventId
         })
         userProfile = await userProfile.save();
         res.send(userProfile);
@@ -37,7 +38,7 @@ router.put('/:id', async (req, res) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         userProfile = await UserProfiles.findByIdAndUpdate(req.params.id,
-            { profileName: req.body.profileName }
+            { profileName: req.body.profileName , eventId : req.body.eventId}
             , { new: true })
 
         if (!userProfile) return res.status(404).send('The Profile with the given ID was not found.');
