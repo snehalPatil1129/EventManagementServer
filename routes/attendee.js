@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
 
         req.body.password = hashedPassword;
         //req.body.password = password;
-        const attendee = new Attendee(_.pick(req.body, ['firstName', 'lastName', 'email', 'password', 'contact', 'profiles', 'roleName', 'attendeeLabel', 'attendeeCount', 'briefInfo', 'profileImageURL', 'eventId']));
+        const attendee = new Attendee(_.pick(req.body, ['firstName', 'lastName', 'email', 'password', 'contact', 'profiles', 'roleName', 'attendeeLabel', 'attendeeCount', 'briefInfo', 'profileImageURL', 'event']));
         let name = req.body.firstName + ' ' + req.body.lastName;
         const result = await attendee.save();
         const emailResult = await sendPasswordViaEmail(password, req.body.email, name);
@@ -50,7 +50,7 @@ router.put('/:id', async (req, res) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         attendee = await Attendee.findByIdAndUpdate(req.params.id,
-            _.pick(req.body, ['firstName', 'lastName', 'email', 'contact', 'profiles', 'roleName', 'attendeeLabel', 'attendeeCount', 'briefInfo', 'profileImageURL', 'eventId'])
+            _.pick(req.body, ['firstName', 'lastName', 'email', 'contact', 'profiles', 'roleName', 'attendeeLabel', 'attendeeCount', 'briefInfo', 'profileImageURL', 'event'])
             , { new: true })
 
         if (!attendee) return res.status(404).send('The attendee Information with the given ID was not found.');

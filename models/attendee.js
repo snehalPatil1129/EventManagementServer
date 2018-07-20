@@ -31,7 +31,11 @@ const Attendee = mongoose.model('Attendee', new mongoose.Schema({
     attendeeCount : Number,
     briefInfo : String,
     profileImageURL : String,
-    eventId : String
+    event : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Events',
+        required : true
+    }
 }));
 
 function validateAttendee(attendee) {
@@ -47,7 +51,7 @@ function validateAttendee(attendee) {
         attendeeCount : Joi.number(),
         briefInfo : Joi.string(),
         profileImageURL : Joi.string(),
-        eventId : Joi.string()
+        event : Joi.string().required()
     };
     return Joi.validate(attendee, schema);
 }
