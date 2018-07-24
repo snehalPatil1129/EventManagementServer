@@ -53,6 +53,16 @@ router.get('/:id', async (req, res) => {
         res.send(error.message);
     }
 })
+//get help desk for event by event id
+router.get('/eventId/:id', async (req, res) => {
+    try {
+        const helpDeskInfo = await Helpdesk.find().where('event').equals(req.params.id)
+        if (!helpDeskInfo) return res.status(404).send('The Helpdesk Information with the given Event ID was not found.');
+        res.send(helpDeskInfo);
+    } catch (error) {
+        res.send(error.message);
+    }
+})
 
 router.delete('/:id', async(req,res)=>{
     try {

@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 router.get('/', async (req, res) => {
     try {
-        const attendees = await Attendee.find();
+        const attendees = await Attendee.find().populate('event');
         res.send(attendees);
     }
     catch (error) {
@@ -18,6 +18,17 @@ router.get('/:id', async (req, res) => {
     try {
         const attendee = await Attendee.findById(req.params.id);
         if (!attendee) return res.status(404).send('The attendee with the given ID was not found.');
+        res.send(attendee);
+    }
+    catch (error) {
+        res.send(error.message);
+    }
+})
+///get attendees for a event
+router.get('/event/:id', async (req, res) => {
+    try {
+        const attendee = await Attendee.find().where('event').equals(req.params.id).populate('event');
+        if (!attendee) return res.status(404).send('The attendee for given event ID was not found.');
         res.send(attendee);
     }
     catch (error) {

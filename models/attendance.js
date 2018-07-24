@@ -15,8 +15,8 @@ const Attendance = mongoose.model('Attendance', new mongoose.Schema({
         ref: 'Attendee'
     },
     scannedBy : {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Attendee'
+        type : String,
+        required : true
     },
     time :{
         type : String,
@@ -29,7 +29,7 @@ function validateAttendance(attendance) {
         event : Joi.required(),
         session : Joi.required(),
         attendee : Joi.required(),
-        scannedBy : Joi.required(),
+        scannedBy : Joi.string().required(),
         time : Joi.string().required(),
     };
     return Joi.validate(attendance, schema);

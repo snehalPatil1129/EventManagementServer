@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
         const { error } = validateAttendance(req.body);
         if (error) return res.status(404).send(error.details[0].message);
 
-        const attendance = new Attendance(_.pick(req.body, ['attendee', 'event', 'session', 'scannnedBy', 'time']));
+        const attendance = new Attendance(_.pick(req.body, ['attendee', 'event', 'session', 'scannedBy', 'time']));
         const result = await attendance.save();
         res.send(result);
     }
