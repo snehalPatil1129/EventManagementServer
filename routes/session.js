@@ -6,7 +6,7 @@ const { Sessions, validateSession } = require('../models/session')
 
 router.get('/', async (req, res) => {
     try {
-        const sessions = await Sessions.find().populate('event');
+        const sessions = await Sessions.find();
         res.send(sessions);
     }
     catch (error) {
@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
         const { error } = validateSession(req.body);
         
         if (error) return res.status(400).send(error.details[0].message);
-        var session = new Sessions(_.pick(req.body, ['sessionName', 'event', 'speakers', 'volunteers', 'description', 'sessionType',
+        var session = new Sessions(_.pick(req.body, ['sessionName', 'event','room', 'speakers', 'volunteers', 'description', 'sessionType',
             'sessionCapacity', 'startTime', 'endTime', 'isBreak', 'isRegistrationRequired']))
         session = await session.save();
         res.send(session);
