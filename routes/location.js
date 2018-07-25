@@ -53,6 +53,16 @@ router.get('/:id', async (req, res) => {
         res.send(error.message);
     }
 })
+//get location for a event using event id
+router.get('/eventId/:id', async (req, res) => {
+    try {
+        const eventLocationInfo = await EventLocation.find().where('event').equals(req.params.id)
+        if (!eventLocationInfo) return res.status(404).send('The EventLocation Information with the given Event ID was not found.');
+        res.send(eventLocationInfo);
+    } catch (error) {
+        res.send(error.message);
+    }
+})
 
 router.delete('/:id', async (req, res) => {
     try {

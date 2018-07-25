@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
         const { error } = validateSponsor(req.body);
         if (error) return res.status(400).send(error.details[0].message);
 
-        var sponsor = new Sponsors(_.pick(req.body, ['name', 'description', 'websiteURL', 'imageURL', 'category']))
+        var sponsor = new Sponsors(_.pick(req.body, ['name', 'event' ,'description', 'websiteURL', 'imageURL', 'category']))
         sponsor = await sponsor.save();
         res.send(sponsor);
     } catch (error) {
@@ -35,7 +35,7 @@ router.put('/:id', async (req, res) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         sponsor = await Sponsors.findByIdAndUpdate(req.params.id,
-            _.pick(req.body, ['name', 'description', 'websiteURL', 'imageURL', 'category'])
+            _.pick(req.body, ['name', 'event' ,'description', 'websiteURL', 'imageURL', 'category'])
             , { new: true })
         if (!sponsor) return res.status(404).send('The Sponsor with the given ID was not found.');
 

@@ -56,19 +56,19 @@ const EventLocation = mongoose.model('EventLocation', new mongoose.Schema({
         required : true
     },
     latitude : {
-        type : String,
+        type : Number,
         required : true
     },
     longitude : {
-        type : String,
+        type : Number,
         required : true
     },
     latitudeDelta : {
-        type : String,
+        type : Number,
         required : true
     },
     longitudeDelta : {
-        type : String,
+        type : Number,
         required : true
     },
     
@@ -103,10 +103,10 @@ function validateLocation(location) {
     const schema = {
         event : Joi.required(),
         address : Joi.string().required(),
-        latitude : Joi.string().required(),
-        longitude : Joi.string().required(),
-        latitudeDelta : Joi.string().required(),
-        longitudeDelta : Joi.string().required(),
+        latitude : Joi.number().required(),
+        longitude : Joi.number().required(),
+        latitudeDelta : Joi.number().required(),
+        longitudeDelta : Joi.number().required(),
     };
     return Joi.validate(location, schema);
 }
