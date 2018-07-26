@@ -4,7 +4,7 @@ const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const generator = require('generate-password');
 
-const Speakers = mongoose.model('Speakers', new mongoose.Schema({
+const Speaker = mongoose.model('Speaker', new mongoose.Schema({
     firstName: {
         type: String,
         required: true
@@ -30,7 +30,11 @@ const Speakers = mongoose.model('Speakers', new mongoose.Schema({
     speakerCount : Number,
     briefInfo : String,
     profileImageURL : String,
-    eventId : String
+    event :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Events',
+        required : true
+    },
 }));
 
 function validateSpeaker(speaker) {
@@ -45,7 +49,7 @@ function validateSpeaker(speaker) {
         speakerCount : Joi.number(),
         briefInfo : Joi.string(),
         profileImageURL : Joi.string(),
-        eventId : Joi.string()
+        event : Joi.required()
     };
     return Joi.validate(speaker, schema);
 }
@@ -90,7 +94,7 @@ async function sendPasswordViaEmail(password , email , name) {
     }
  };
  
-exports.Speakers = Speakers;
+exports.Speaker = Speaker;
 exports.validateSpeaker = validateSpeaker;
 exports.validateAuthUser = validateAuthUser;
 exports.generatePassword = generatePassword;
