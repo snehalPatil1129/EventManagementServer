@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const joi = require('joi');
 const attendee = require('./routes/attendee');
 const speaker = require('./routes/speaker');
+const attendeeCount = require('./routes/attendeeCount')
 const authenticate = require('./routes/authentication');
 const attendance = require('./routes/attendance');
 const event = require('./routes/event');
@@ -32,6 +33,7 @@ app.use('/api/userProfile',userProfile);
 app.use('/api/registration', registration);
 app.use('/api/attendee', attendee);
 app.use('/api/speaker', speaker);
+app.use('/api/attendeeCount', attendeeCount);
 app.use('/api/attendance', attendance);
 app.use('/api/sponsor', sponsor);
 app.use('/api/room', room);
