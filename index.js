@@ -18,7 +18,8 @@ const aboutEternus = require('./routes/aboutEternus');
 const helpDesk = require('./routes/helpDesk');
 const location = require('./routes/location');
 const  cors = require('cors')
-const registration = require('./routes/registrationResponse')
+const registration = require('./routes/registrationResponse');
+
 mongoose.connect('mongodb://snehal.patil:espl123@ds227171.mlab.com:27171/eventmanagementapp')
 .then(() => console.log('Connected to MongoDB...'))
 .catch(err => console.error('Could not connect to MongoDB...'));

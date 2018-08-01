@@ -57,6 +57,17 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+router.get('/event/:id', async (req, res) => {
+    try {
+        const room = await Rooms.find().where('event').equals(req.params.id).populate('event');
+        if (!room) return res.status(404).send('The Room with the given event ID was not found.');
+        res.send(room);
+    }
+    catch (error) {
+        res.send(error.message);
+    }
+})
+
 router.delete('/:id', async (req, res) => {
     try {
         const room = await Rooms.findByIdAndRemove(req.params.id);
