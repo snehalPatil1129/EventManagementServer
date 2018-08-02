@@ -32,7 +32,7 @@ router.put('/:id', async (req, res) => {
         const { error } = validateCount(req.body);
         if (error) return res.status(400).send(error.details[0].message);
         count = await AttendeeCounts.findByIdAndUpdate(req.params.id,
-            _.pick(req.body, ['attendeeCount', 'speakerCount', 'totalCount'])
+            _.pick(req.body, ['attendeeCount', 'speakerCount', 'totalCount','eventId'])
             , { new: true })
         if (!count) return res.status(404).send('The Count with the given ID was not found.');
         res.send(count)
