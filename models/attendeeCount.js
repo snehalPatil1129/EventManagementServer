@@ -25,6 +25,7 @@ function validateCount(count) {
         attendeeCount : Joi.required(),
         speakerCount : Joi.required(),
         totalCount : Joi.required(),
+        eventId : Joi.required()
     };
     return Joi.validate(count, schema);
 }
