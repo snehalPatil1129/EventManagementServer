@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
 
         req.body.password = hashedPassword;
         //req.body.password = password;
-        const speaker = new Speaker(_.pick(req.body, ['firstName', 'lastName', 'email', 'password', 'contact','roleName', 'speakerLabel', 'speakerCount', 'briefInfo', 'profileImageURL', 'event']));
+        const speaker = new Speaker(_.pick(req.body, ['firstName', 'lastName', 'email', 'password', 'contact','roleName', 'attendeeLabel', 'attendeeCount', 'briefInfo', 'profileImageURL', 'event']));
         let name = req.body.firstName + ' ' + req.body.lastName;
         const result = await speaker.save();
         const emailResult = await sendPasswordViaEmail(password, req.body.email, name);
@@ -61,7 +61,7 @@ router.put('/:id', async (req, res) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         speaker = await Speaker.findByIdAndUpdate(req.params.id,
-            _.pick(req.body, ['firstName', 'lastName', 'email', 'contact','roleName', 'speakerLabel', 'speakerCount', 'briefInfo', 'profileImageURL', 'event'])
+            _.pick(req.body, ['firstName', 'lastName', 'email', 'contact','roleName', 'attendeeLabel', 'attendeeCount', 'briefInfo', 'profileImageURL', 'event'])
             , { new: true })
 
         if (!speaker) return res.status(404).send('The speaker Information with the given ID was not found.');
