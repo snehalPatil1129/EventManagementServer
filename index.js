@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const joi = require('joi');
+//var http = require("http").Server(app)
+//var io= require("socket.io")(http)
+
+
 const attendee = require('./routes/attendee');
 const speaker = require('./routes/speaker');
 const attendeeCount = require('./routes/attendeeCount')
@@ -19,6 +23,12 @@ const helpDesk = require('./routes/helpDesk');
 const location = require('./routes/location');
 const  cors = require('cors')
 const registration = require('./routes/registrationResponse');
+
+// io.on("connection", function (socket)  {
+//    console.log("Socket is connected...")
+// },function (err){
+//    console.log("Socket is not connected...")
+// });
 
 mongoose.connect('mongodb://snehal.patil:espl123@ds227171.mlab.com:27171/eventmanagementapp')
 .then(() => console.log('Connected to MongoDB...'))
@@ -45,5 +55,10 @@ app.use('/api/location', location);
 app.use('/api/helpdesk', helpDesk);
 //app.use(error);  //central error handling using express middleware
 const port = process.env.PORT || 3000;
+
+// var server = http.listen(port, () => {
+//     console.log("Well done, now I am listening on ", server.address().port)
+// })
+
 app.listen(port, () => console.log(`Listening on port ${port}...`));
 
