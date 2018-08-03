@@ -4,7 +4,8 @@ const Joi = require('joi');
 const AboutUs = mongoose.model('AboutUs', new mongoose.Schema({
     event : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : 'Events'
+        ref : 'Events',
+        required : true
     },
     info : {
         type : String,
@@ -77,7 +78,8 @@ const EventLocation = mongoose.model('EventLocation', new mongoose.Schema({
 function validateAboutUs(about) {
     const schema = {
         info : Joi.string().required(),
-        url : Joi.string()
+        url : Joi.string(),
+        event : Joi.required(),
     };
     return Joi.validate(about, schema);
 }
