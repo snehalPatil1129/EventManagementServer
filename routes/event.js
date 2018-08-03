@@ -57,8 +57,13 @@ router.get('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         const event = await Events.findByIdAndRemove(req.params.id);
+                    //await Events.find().where('event').equals(req.params.id).remove();
         if (!event) return res.status(404).send('The Event with the given ID was not found.');
-        session = await Sessions.deleteMany({ eventId: req.params.id });
+        const session = await Sessions.deleteMany({ event: req.params.id });
+        //delete from following collections
+        // rooms , aboutUS , attendance , attendee, helpDesk , location , questionForms , 
+        // registrationResponse , speakers ,sponsors , profiles
+       
         res.send(event);
     }
     catch (error) {

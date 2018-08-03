@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 //get help desk for event by event id
 router.get('/eventId/:id', async (req, res) => {
     try {
-        const aboutInfo = await AboutUs.find().where('event').equals(req.params.id)
+        const aboutInfo = await AboutUs.find().where('event').equals(req.params.id);
         if (!aboutInfo) return res.status(404).send('The AboutUs Information with the given Event ID was not found.');
         res.send(aboutInfo);
     } catch (error) {
