@@ -6,7 +6,7 @@ const { AttendeeCounts, validateCount } = require('../models/attendeeCount');
 
 router.get('/', async (req, res) => {
     try {
-        const counts = await AttendeeCounts.find();
+        const counts = await AttendeeCounts.find().populate('event');
         res.send(counts);
     }
     catch (error) {
@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
     try {
         const { error } = validateCount(req.body);
         if (error) return res.status(400).send(error.details[0].message);
-        var count = new AttendeeCounts(_.pick(req.body, ['attendeeCount', 'speakerCount', 'totalCount', 'eventId']))
+        var count = new AttendeeCounts(_.pick(req.body, ['attendeeCount', 'speakerCount', 'totalCount', 'event']))
         count = await count.save();
         res.send(count);
     }
@@ -32,7 +32,7 @@ router.put('/:id', async (req, res) => {
         const { error } = validateCount(req.body);
         if (error) return res.status(400).send(error.details[0].message);
         count = await AttendeeCounts.findByIdAndUpdate(req.params.id,
-            _.pick(req.body, ['attendeeCount', 'speakerCount', 'totalCount','eventId'])
+            _.pick(req.body, ['attendeeCount', 'speakerCount', 'totalCount','event'])
             , { new: true })
         if (!count) return res.status(404).send('The Count with the given ID was not found.');
         res.send(count)
@@ -55,7 +55,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/event/:id', async (req, res) => {
     try {
-        const count = await AttendeeCounts.find().where('eventId').equals(req.params.id);
+        const count = await AttendeeCounts.find().where('event').equals(req.params.id);
         if (!count) return res.status(404).send('The attendeeCount for given event ID was not found.');
         res.send(count);
     }
