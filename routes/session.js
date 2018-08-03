@@ -6,7 +6,7 @@ const { Sessions, validateSession } = require('../models/session')
 
 router.get('/', async (req, res) => {
     try {
-        const sessions = await Sessions.find();
+        const sessions = await Sessions.find().populate('event');
         res.send(sessions);
     }
     catch (error) {

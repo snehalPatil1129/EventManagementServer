@@ -14,10 +14,11 @@ const AttendeeCounts = mongoose.model('AteendeeCounts', new mongoose.Schema({
         type : Number,
         required : true
     },
-    eventId : {
-        type : String,
+      event :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Events',
+        required : true
     }
-   
 }));
 
 function validateCount(count) {
@@ -25,7 +26,7 @@ function validateCount(count) {
         attendeeCount : Joi.required(),
         speakerCount : Joi.required(),
         totalCount : Joi.required(),
-        eventId : Joi.required()
+        event : Joi.required()
     };
     return Joi.validate(count, schema);
 }

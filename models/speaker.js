@@ -26,8 +26,8 @@ const Speaker = mongoose.model('Speaker', new mongoose.Schema({
         required : true
     },
     roleName : String,
-    speakerLabel : String,
-    speakerCount : Number,
+    attendeeLabel : String,
+    attendeeCount : Number,
     briefInfo : String,
     profileImageURL : String,
     event :{
@@ -45,8 +45,8 @@ function validateSpeaker(speaker) {
         //password : Joi.string().required(),
         contact : Joi.number().required(),
         roleName : Joi.string(),
-        speakerLabel : Joi.string(),
-        speakerCount : Joi.number(),
+        attendeeLabel : Joi.string(),
+        attendeeCount : Joi.number(),
         briefInfo : Joi.string(),
         profileImageURL : Joi.string(),
         event : Joi.required()

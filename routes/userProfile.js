@@ -7,7 +7,7 @@ const { UserProfiles, validateProfile } = require('../models/userProfile')
 
 router.get('/', async (req, res) => {
     try {
-        const userProfiles = await UserProfiles.find();
+        const userProfiles = await UserProfiles.find().populate('event');
         res.send(userProfiles);
     }
     catch (error) {
@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
 
         var userProfile = new UserProfiles({
             profileName: req.body.profileName,
-            eventId : req.body.eventId
+            event : req.body.event
         })
         userProfile = await userProfile.save();
         res.send(userProfile);
@@ -38,7 +38,7 @@ router.put('/:id', async (req, res) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         userProfile = await UserProfiles.findByIdAndUpdate(req.params.id,
-            { profileName: req.body.profileName , eventId : req.body.eventId}
+            { profileName: req.body.profileName , event : req.body.event}
             , { new: true })
 
         if (!userProfile) return res.status(404).send('The Profile with the given ID was not found.');

@@ -6,9 +6,10 @@ const Sessions = mongoose.model('Sessions', new mongoose.Schema({
         type : String,
         required : true
     },
-    event: {
-       type : String,
-       required : true
+    event :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Events',
+        required : true
     },
     speakers :{
         type : Array,

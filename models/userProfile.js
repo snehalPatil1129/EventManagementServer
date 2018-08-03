@@ -6,16 +6,17 @@ const UserProfiles = mongoose.model('UserProfiles', new mongoose.Schema({
         type: String,
         rerquired: true
     },
-    eventId: {
-        type: String,
-        rerquired: true
+   event :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Events',
+        required : true
     }
 }))
 
 function validateProfile(userprofiles) {
     const schema = {
         profileName: Joi.string().required(),
-        eventId: Joi.string().required(),
+        event: Joi.string().required(),
     }
     return Joi.validate(userprofiles, schema);
 }
