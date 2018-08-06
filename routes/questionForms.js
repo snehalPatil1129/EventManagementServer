@@ -34,8 +34,8 @@ router.put('/:id', async (req, res) => {
         const { error } = validateQuestionForm(req.body);
         if (error) return res.status(400).send(error.details[0].message);
 
-        let form = await QuestionForms.findOne({ where: { id: req.params.id } });
-        if (!form) return res.status(404).send('The Form with the given ID was not found.');
+        // let form = await QuestionForms.findOne({ where: { id: req.params.id } });
+        // if (!form) return res.status(404).send('The Form with the given ID was not found.');
 
         form = await QuestionForms.findByIdAndUpdate(req.params.id,
             _.pick(req.body, ['event', 'session', 'formType', 'formData'])
