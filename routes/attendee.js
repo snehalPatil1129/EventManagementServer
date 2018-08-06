@@ -46,7 +46,6 @@ router.post('/', async (req, res) => {
         setTimeout( async function() {
             try{
                 if (validEmail){
-                    console.log("validEmail" ,  validEmail);
                     const { password, hashedPassword } = await generatePassword();
                     const { error } = validateAttendee(req.body);
                     if (error) return res.status(404).send(error.details[0].message);

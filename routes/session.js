@@ -75,7 +75,7 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/getSessions/:id' , async(req , res) => {
     try {
-            const sessionList = await Sessions.find().where('eventId').equals(req.params.id);
+            const sessionList = await Sessions.find().where('event').equals(req.params.id);
             res.send(sessionList);
     } catch (error) {
         res.send(error.message);
