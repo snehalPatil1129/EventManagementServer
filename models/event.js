@@ -19,7 +19,7 @@ function validateEvent(event) {
   const schema = {
     eventName: Joi.string().required(),
     venue: Joi.string(),
-    description: Joi.string(),
+    description: Joi.string().allow(""),
     startDate: Joi.date(),
     endDate: Joi.date()
   };

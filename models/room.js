@@ -26,8 +26,8 @@ function validateRoom(room) {
     event: Joi.required(),
     roomName: Joi.string().required(),
     capacity: Joi.number().required(),
-    bufferCapacity: Joi.number(),
-    availableServices: Joi.array()
+    bufferCapacity: Joi.number().allow(""),
+    availableServices: Joi.array().allow("")
   };
   return Joi.validate(room, schema);
 }
