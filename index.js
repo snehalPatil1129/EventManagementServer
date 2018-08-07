@@ -57,7 +57,7 @@ app.use('/api/location', location);
 app.use('/api/helpdesk', helpDesk);
 app.use('/api/profileList', profileList);
 //app.use(error);  //central error handling using express middleware
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3010;
 
 // var server = http.listen(port, () => {
 //     console.log("Well done, now I am listening on ", server.address().port)
