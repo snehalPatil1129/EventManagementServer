@@ -1,24 +1,27 @@
-const mongoose = require('mongoose');
-const Joi = require('joi');
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
-const UserProfiles = mongoose.model('UserProfiles', new mongoose.Schema({
+const UserProfiles = mongoose.model(
+  "UserProfiles",
+  new mongoose.Schema({
     profileName: {
-        type: String,
-        rerquired: true
+      type: String,
+      rerquired: true
     },
-   event :{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Events',
-        required : true
+    event: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Events",
+      required: true
     }
-}))
+  })
+);
 
 function validateProfile(userprofiles) {
-    const schema = {
-        profileName: Joi.string().required(),
-        event: Joi.string().required(),
-    }
-    return Joi.validate(userprofiles, schema);
+  const schema = {
+    profileName: Joi.string().required(),
+    event: Joi.string().required()
+  };
+  return Joi.validate(userprofiles, schema);
 }
 
 exports.UserProfiles = UserProfiles;
