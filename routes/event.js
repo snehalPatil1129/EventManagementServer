@@ -3,6 +3,14 @@ const router = express.Router();
 const _ = require("lodash");
 const { Events, validateEvent } = require("../models/event");
 const { Sessions } = require("../models/session");
+const { Rooms } = require("../models/room");
+const { Attendee } = require("../models/attendee");
+const { Helpdesk , EventLocation, AboutEternus ,AboutUs } = require("../models/staticPages");
+const { Speaker } = require("../models/speaker");
+const { Sponsors } = require("../models/sponsor");
+const { UserProfiles } = require("../models/userProfile");
+const { QuestionForms } = require("../models/questionForms");
+const { RegistrationResponse } = require("../models/registrationResponse");
 
 router.get("/", async (req, res) => {
   try {
@@ -74,10 +82,18 @@ router.delete("/:id", async (req, res) => {
     //await Events.find().where('event').equals(req.params.id).remove();
     if (!event)
       return res.status(404).send("The Event with the given ID was not found.");
-    await Sessions.deleteMany({ event: req.params.id });
     //delete from following collections
-    // rooms , aboutUS , attendance , attendee, helpDesk , location , questionForms ,
-    // registrationResponse , speakers ,sponsors , profiles
+    await Sessions.deleteMany({ event: req.params.id });
+    await Rooms.deleteMany({event: req.params.id}); // rooms ,
+    await AboutUs.deleteMany({event: req.params.id});  // aboutUS
+    await Helpdesk.deleteMany({event: req.params.id});  // helpDesk ,attendance  
+    await Attendee.deleteMany({event: req.params.id});  //, attendee,
+    await EventLocation.deleteMany({event: req.params.id}); //location
+    await QuestionForms.deleteMany({event: req.params.id}); // , questionForms ,
+    await Speaker.deleteMany({event: req.params.id}); // speakers ,
+    await Sponsors.deleteMany({event: req.params.id}); //, ,sponsors
+    await UserProfiles.deleteMany({event: req.params.id}); // profiles
+    await RegistrationResponse.deleteMany({event: req.params.id});// registrationResponse  ,
 
     res.send(event);
   } catch (error) {
