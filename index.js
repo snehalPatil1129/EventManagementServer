@@ -31,8 +31,9 @@ const registration = require('./routes/registrationResponse');
 // },function (err){
 //    console.log("Socket is not connected...")
 // });
-
-mongoose.connect('mongodb://snehal.patil:espl123@ds227171.mlab.com:27171/eventmanagementapp')
+  //test env
+//mongoose.connect('mongodb://snehal.patil:espl123@ds227171.mlab.com:27171/eventmanagementapp')  //development env
+mongoose.connect('mongodb://snehal.patil:espl123@ds113452.mlab.com:13452/emapptest')
 .then(() => console.log('Connected to MongoDB...'))
 .catch(err => console.error('Could not connect to MongoDB...'));
 

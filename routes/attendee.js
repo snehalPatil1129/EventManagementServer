@@ -38,14 +38,14 @@ router.get('/event/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    try {
-        let validEmail = false
-        await emailExistence.check(req.body.email, function (error, response) {
-             validEmail = response;
-        });
-        setTimeout( async function() {
+   // try {
+        // let validEmail = false
+        // await emailExistence.check(req.body.email, function (error, response) {
+        //      validEmail = response;
+        // });
+        // setTimeout( async function() {
             try{
-                if (validEmail){
+               // if (validEmail){
                     const { password, hashedPassword } = await generatePassword();
                     const { error } = validateAttendee(req.body);
                     if (error) return res.status(404).send(error.details[0].message);
@@ -57,15 +57,15 @@ router.post('/', async (req, res) => {
                     const emailResult = await sendPasswordViaEmail(password, req.body.email, name);
                     res.send(result);
                 }
-                else{
-                    res.status(404).send("Invalid Email");
-                }
-            }
-            catch (error) {
-                res.send(error.message);
-            }
-        }, 2000);
-    }
+                // else{
+                //     res.status(404).send("Invalid Email");
+                // }
+        //     }
+        //     catch (error) {
+        //         res.send(error.message);
+        //     }
+        // }, 2000);
+   // }
     catch (error) {
         res.send(error.message);
     }
