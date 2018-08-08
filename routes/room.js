@@ -60,7 +60,7 @@ router.put("/:id", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const room = await Rooms.findById(req.params.id);
+    const room = await Rooms.findById(req.params.id).populate("event");
     if (!room)
       return res.status(404).send("The Room with the given ID was not found.");
     res.send(room);
