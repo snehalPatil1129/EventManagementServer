@@ -1,35 +1,38 @@
-const mongoose = require('mongoose');
-const Joi = require('joi');
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
-const Sponsors = mongoose.model('Sponsors', new mongoose.Schema({
+const Sponsors = mongoose.model(
+  "Sponsors",
+  new mongoose.Schema({
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
-    event : {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Events',
-        required: true
+    event: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Events",
+      required: true
     },
     description: String,
     websiteURL: String,
     imageURL: String,
-    category:{
-        type: String,
-        required: true
+    category: {
+      type: String,
+      required: true
     }
-}));
+  })
+);
 
 function validateSponsor(sponsor) {
-    const schema = {
-        name: Joi.string().required(),
-        event : Joi.required(),
-        description: Joi.string(),
-        websiteURL: Joi.string(),
-        imageURL: Joi.string(),
-        category: Joi.string().required(),
-    };
-    return Joi.validate(sponsor, schema);
+  const schema = {
+    name: Joi.string().required(),
+    event: Joi.required(),
+    description: Joi.string().allow(""),
+    websiteURL: Joi.string().allow(""),
+    imageURL: Joi.string().allow(""),
+    category: Joi.string().required()
+  };
+  return Joi.validate(sponsor, schema);
 }
 exports.Sponsors = Sponsors;
 exports.validateSponsor = validateSponsor;
