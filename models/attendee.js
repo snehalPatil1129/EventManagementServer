@@ -56,8 +56,8 @@ function validateAttendee(attendee) {
     roleName: Joi.string(),
     attendeeLabel: Joi.string(),
     attendeeCount: Joi.number(),
-    briefInfo: Joi.string(),
-    profileImageURL: Joi.string(),
+    briefInfo: Joi.string().allow(""),
+    profileImageURL: Joi.string().allow(""),
     event: Joi.required()
   };
   return Joi.validate(attendee, schema);

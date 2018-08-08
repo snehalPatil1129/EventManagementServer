@@ -27,9 +27,9 @@ function validateSponsor(sponsor) {
   const schema = {
     name: Joi.string().required(),
     event: Joi.required(),
-    description: Joi.string(),
-    websiteURL: Joi.string(),
-    imageURL: Joi.string(),
+    description: Joi.string().allow(""),
+    websiteURL: Joi.string().allow(""),
+    imageURL: Joi.string().allow(""),
     category: Joi.string().required()
   };
   return Joi.validate(sponsor, schema);
