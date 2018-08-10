@@ -3,9 +3,15 @@ const router = express.Router();
 const _ = require("lodash");
 const { Events, validateEvent } = require("../models/event");
 const { Sessions } = require("../models/session");
+const { AttendeeCounts } = require("../models/attendeeCount");
 const { Rooms } = require("../models/room");
 const { Attendee } = require("../models/attendee");
-const { Helpdesk , EventLocation, AboutEternus ,AboutUs } = require("../models/staticPages");
+const {
+  Helpdesk,
+  EventLocation,
+  AboutEternus,
+  AboutUs
+} = require("../models/staticPages");
 const { Speaker } = require("../models/speaker");
 const { Sponsors } = require("../models/sponsor");
 const { UserProfiles } = require("../models/userProfile");
@@ -84,17 +90,17 @@ router.delete("/:id", async (req, res) => {
       return res.status(404).send("The Event with the given ID was not found.");
     //delete from following collections
     await Sessions.deleteMany({ event: req.params.id });
-    await Rooms.deleteMany({event: req.params.id}); // rooms ,
-    await AboutUs.deleteMany({event: req.params.id});  // aboutUS
-    await Helpdesk.deleteMany({event: req.params.id});  // helpDesk ,attendance  
-    await Attendee.deleteMany({event: req.params.id,roleName :{$ne : "Admin"}});  //, attendee,
-    await EventLocation.deleteMany({event: req.params.id}); //location
-    await QuestionForms.deleteMany({event: req.params.id}); // , questionForms ,
-    await Speaker.deleteMany({event: req.params.id}); // speakers ,
-    await Sponsors.deleteMany({event: req.params.id}); //, ,sponsors
-    await UserProfiles.deleteMany({event: req.params.id}); // profiles
-    await RegistrationResponse.deleteMany({event: req.params.id});// registrationResponse  ,
-
+    await Rooms.deleteMany({ event: req.params.id }); // rooms ,
+    await AboutUs.deleteMany({ event: req.params.id }); // aboutUS
+    await Helpdesk.deleteMany({ event: req.params.id }); // helpDesk ,attendance
+    await Attendee.deleteMany({ event: req.params.id }); //, attendee,
+    await EventLocation.deleteMany({ event: req.params.id }); //location
+    await QuestionForms.deleteMany({ event: req.params.id }); // , questionForms ,
+    await Speaker.deleteMany({ event: req.params.id }); // speakers ,
+    await Sponsors.deleteMany({ event: req.params.id }); //, ,sponsors
+    await UserProfiles.deleteMany({ event: req.params.id }); // profiles
+    await RegistrationResponse.deleteMany({ event: req.params.id }); // registrationResponse  ,
+    await AttendeeCounts.deleteMany({ event: req.params.id });
     res.send(event);
   } catch (error) {
     res.send(error.message);
