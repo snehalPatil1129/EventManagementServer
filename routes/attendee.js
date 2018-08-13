@@ -117,9 +117,15 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const result = await Attendee.findByIdAndRemove(req.params.id);
+    const result = await Attendee.findById(req.params.id);
     if (!result) return res.status(404).send("not found");
-    res.send(result);
+    const isAdmin = result.roleName === 'Admin';
+    if(isAdmin) {
+      return res.status(404).send("Admin Cannot be deleted");
+    }else{
+      const deleteResult = await Attendee.findByIdAndRemove(req.params.id);
+      res.send(deleteResult);
+    }
   } catch (error) {
     res.send(error.message);
   }
