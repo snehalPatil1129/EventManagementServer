@@ -89,7 +89,7 @@ const EventLocation = mongoose.model(
 function validateAboutUs(about) {
   const schema = {
     info: Joi.string().required(),
-    url: Joi.string(),
+    url: Joi.string().allow(""),
     event: Joi.required()
   };
   return Joi.validate(about, schema);
@@ -98,7 +98,7 @@ function validateAboutUs(about) {
 function validateAboutEternus(about) {
   const schema = {
     info: Joi.string().required(),
-    url: Joi.string()
+    url: Joi.string().allow(""),
   };
   return Joi.validate(about, schema);
 }

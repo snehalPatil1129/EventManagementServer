@@ -17,18 +17,22 @@ router.post("/", async (req, res) => {
     if (error) return res.status(404).send(error.details[0].message);
 
     let user = await Attendee.findOne({ email: req.body.email });
-    if (!user) return res.status(404).send("Invalid Email/Password...");
+    if (!user) return res.status(404).send("No User found with this email Id...");
 
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.password
     ); //return a boolean
-    if (!validPassword)
-      return res.status(404).send("Invalid Email/Password...");
+    const isAdmin = user.roleName === "Admin";
+      if (validPassword === false && isAdmin === true)  return res.status(404).send("Invalid Email/Password...");
+      if (validPassword === true && isAdmin === false)  return res.status(404).send("Unauthorised Admin...");
+      if (validPassword === false && isAdmin === false)  return res.status(404).send("Invalid Email/Password && Unauthorised Admin...");
+      if (validPassword === true && isAdmin === true) {
+          res.send(validPassword);
+      }
     //steps remaining
     //1. generate token and store in headers
     //const token = user.generateAuthToken();
-    res.send(validPassword);
   } catch (error) {
     res.send(error.message);
   }

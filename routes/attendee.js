@@ -47,38 +47,38 @@ router.get("/event/:id", async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
-   // try {
-        // let validEmail = false
-        // await emailExistence.check(req.body.email, function (error, response) {
-        //      validEmail = response;
-        // });
-        // setTimeout( async function() {
-            try{
-               // if (validEmail){
-                    const { password, hashedPassword } = await generatePassword();
-                    const { error } = validateAttendee(req.body);
-                    if (error) return res.status(404).send(error.details[0].message);
-                    req.body.password = hashedPassword;
-                    //req.body.password = password;
-                    const attendee = new Attendee(_.pick(req.body, ['firstName', 'lastName', 'email', 'password', 'contact', 'profiles', 'roleName', 'attendeeLabel', 'attendeeCount', 'briefInfo', 'profileImageURL', 'event']));
-                    let name = req.body.firstName + ' ' + req.body.lastName;
-                    const result = await attendee.save();
-                    const emailResult = await sendPasswordViaEmail(password, req.body.email, name);
-                    res.send(result);
-                }
-                // else{
-                //     res.status(404).send("Invalid Email");
-                // }
-        //     }
-        //     catch (error) {
-        //         res.send(error.message);
-        //     }
-        // }, 2000);
-   // }
-    catch (error) {
-        res.send(error.message);
-    }
+router.post("/", async (req, res) => {
+  try {
+    const userExists = await Attendee.findOne({email : req.body.email});
+    if(userExists) return res.status(404).send("User Already Exists");
+    const { password, hashedPassword } = await generatePassword();
+    const { error } = validateAttendee(req.body);
+    if (error) return res.status(404).send(error.details[0].message);
+    req.body.password = hashedPassword;
+    //req.body.password = password;
+    const attendee = new Attendee(
+      _.pick(req.body, [
+        "firstName",
+        "lastName",
+        "email",
+        "password",
+        "contact",
+        "profiles",
+        "roleName",
+        "attendeeLabel",
+        "attendeeCount",
+        "briefInfo",
+        "profileImageURL",
+        "event"
+      ])
+    );
+    let name = req.body.firstName + " " + req.body.lastName;
+    const result = await attendee.save();
+    await sendPasswordViaEmail(password, req.body.email, name);
+    res.send(result);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 router.put("/:id", async (req, res) => {
