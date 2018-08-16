@@ -48,6 +48,8 @@ router.get("/event/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
+    const userExists = await Speaker.findOne({ email: req.body.email });
+    if (userExists) return res.status(404).send("User Already Exists");
     const { password, hashedPassword } = await generatePassword();
     const { error } = validateSpeaker(req.body);
     if (error) return res.status(404).send(error.details[0].message);
