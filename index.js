@@ -18,7 +18,7 @@ const aboutUs = require("./routes/aboutUs");
 const aboutEternus = require("./routes/aboutEternus");
 const helpDesk = require("./routes/helpDesk");
 const location = require("./routes/location");
-yconst sessionTypeList = require("./routes/sessionTypeList");
+const sessionTypeList = require("./routes/sessionTypeList");
 const profileList = require("./routes/profileList");
 
 const cors = require("cors");
