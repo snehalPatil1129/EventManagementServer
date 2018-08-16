@@ -18,6 +18,7 @@ const aboutUs = require("./routes/aboutUs");
 const aboutEternus = require("./routes/aboutEternus");
 const helpDesk = require("./routes/helpDesk");
 const location = require("./routes/location");
+const sessionTypeList = require("./routes/sessionTypeList");
 const profileList = require("./routes/profileList");
 
 const cors = require("cors");
@@ -54,6 +55,7 @@ app.use("/api/aboutUs", aboutUs);
 app.use("/api/aboutEternus", aboutEternus);
 app.use("/api/location", location);
 app.use("/api/helpdesk", helpDesk);
+app.use("/api/sessionTypeList", sessionTypeList);
 app.use("/api/profileList", profileList);
 const port = process.env.PORT || 3010;
 
