@@ -93,7 +93,7 @@ router.delete("/:id", async (req, res) => {
     await Rooms.deleteMany({ event: req.params.id }); // rooms ,
     await AboutUs.deleteMany({ event: req.params.id }); // aboutUS
     await Helpdesk.deleteMany({ event: req.params.id }); // helpDesk ,attendance
-    await Attendee.deleteMany({ event: req.params.id }); //, attendee,
+    await Attendee.deleteMany({ event: req.params.id,roleName :{$ne : "Admin"} }); //, attendee,
     await EventLocation.deleteMany({ event: req.params.id }); //location
     await QuestionForms.deleteMany({ event: req.params.id }); // , questionForms ,
     await Speaker.deleteMany({ event: req.params.id }); // speakers ,

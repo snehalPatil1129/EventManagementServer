@@ -110,7 +110,7 @@ async function sendPasswordViaEmail(password, email, name) {
       email +
       " is as " +
       password +
-      " .Please Login for better experience .</p>"
+      ". Please Login for better experience.</p> <p>Warm Regards,</p><p>Team TieCon</p>"
   };
 
   transporter.sendMail(mailOptions);
