@@ -20,7 +20,7 @@ const { RegistrationResponse } = require("../models/registrationResponse");
 
 router.get("/", async (req, res) => {
   try {
-    const events = await Events.find().sort("eventName");
+    const events = await Events.find().sort({startDate :'descending'});
     res.send(events);
   } catch (error) {
     res.send(error.message);
