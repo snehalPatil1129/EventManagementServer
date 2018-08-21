@@ -18,8 +18,8 @@ router.post("/", async (req, res) => {
       "event",
       "roomName",
       "capacity",
-      "bufferCapacity",
-      "availableServices"
+      //"bufferCapacity",
+      //"availableServices"
     ])
   );
   try {
@@ -44,8 +44,8 @@ router.put("/:id", async (req, res) => {
         "event",
         "roomName",
         "capacity",
-        "bufferCapacity",
-        "availableServices"
+        //"bufferCapacity",
+        //"availableServices"
       ]),
       { new: true }
     );

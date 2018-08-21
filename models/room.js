@@ -16,8 +16,8 @@ const Rooms = mongoose.model(
       type: Number,
       required: true
     },
-    bufferCapacity: Number,
-    availableServices: Array
+    //bufferCapacity: Number,
+    //availableServices: Array
   })
 );
 
@@ -26,8 +26,8 @@ function validateRoom(room) {
     event: Joi.required(),
     roomName: Joi.string().required(),
     capacity: Joi.number().required(),
-    bufferCapacity: Joi.number().allow(""),
-    availableServices: Joi.array().allow("")
+    //bufferCapacity: Joi.number().allow(""),
+    //availableServices: Joi.array().allow("")
   };
   return Joi.validate(room, schema);
 }
