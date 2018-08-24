@@ -20,7 +20,7 @@ const { RegistrationResponse } = require("../models/registrationResponse");
 
 router.get("/", async (req, res) => {
   try {
-    const events = await Events.find().sort({startDate :'descending'});
+    const events = await Events.find().sort({ startDate: "descending" });
     res.send(events);
   } catch (error) {
     res.send(error.message);
@@ -34,7 +34,8 @@ router.post("/", async (req, res) => {
       "venue",
       "description",
       "startDate",
-      "endDate"
+      "endDate",
+      "eventLogo"
     ])
   );
   try {
@@ -59,7 +60,8 @@ router.put("/:id", async (req, res) => {
         "venue",
         "description",
         "startDate",
-        "endDate"
+        "endDate",
+        "eventLogo"
       ]),
       { new: true }
     );
@@ -93,7 +95,10 @@ router.delete("/:id", async (req, res) => {
     await Rooms.deleteMany({ event: req.params.id }); // rooms ,
     await AboutUs.deleteMany({ event: req.params.id }); // aboutUS
     await Helpdesk.deleteMany({ event: req.params.id }); // helpDesk ,attendance
-    await Attendee.deleteMany({ event: req.params.id,roleName :{$ne : "Admin"} }); //, attendee,
+    await Attendee.deleteMany({
+      event: req.params.id,
+      roleName: { $ne: "Admin" }
+    }); //, attendee,
     await EventLocation.deleteMany({ event: req.params.id }); //location
     await QuestionForms.deleteMany({ event: req.params.id }); // , questionForms ,
     await Speaker.deleteMany({ event: req.params.id }); // speakers ,
