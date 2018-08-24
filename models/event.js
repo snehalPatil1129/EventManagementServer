@@ -11,7 +11,8 @@ const Events = mongoose.model(
     venue: String,
     description: String,
     startDate: Date,
-    endDate: Date
+    endDate: Date,
+    eventLogo: String
   })
 );
 
@@ -21,7 +22,8 @@ function validateEvent(event) {
     venue: Joi.string(),
     description: Joi.string().allow(""),
     startDate: Joi.date(),
-    endDate: Joi.date()
+    endDate: Joi.date(),
+    eventLogo: Joi.string().allow("")
   };
   return Joi.validate(event, schema);
 }
