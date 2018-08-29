@@ -17,7 +17,8 @@ router.get("/eventId/:id", async (req, res) => {
   try {
     const aboutInfo = await AboutUs.find()
       .where("event")
-      .equals(req.params.id);
+      .equals(req.params.id)
+      .populate("event");
     if (!aboutInfo)
       return res
         .status(404)
@@ -65,7 +66,7 @@ router.put("/:id", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const aboutUsInfo = await AboutUs.findById(req.params.id);
+    const aboutUsInfo = await AboutUs.findById(req.params.id).populate("event");
     if (!aboutUsInfo)
       return res
         .status(404)

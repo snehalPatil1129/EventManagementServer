@@ -66,7 +66,9 @@ router.put("/:id", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const eventLocationInfo = await EventLocation.findById(req.params.id);
+    const eventLocationInfo = await EventLocation.findById(
+      req.params.id
+    ).populate("event");
     if (!eventLocationInfo)
       return res
         .status(404)
@@ -81,7 +83,8 @@ router.get("/eventId/:id", async (req, res) => {
   try {
     const eventLocationInfo = await EventLocation.find()
       .where("event")
-      .equals(req.params.id);
+      .equals(req.params.id)
+      .populate("event");
     if (!eventLocationInfo)
       return res
         .status(404)
