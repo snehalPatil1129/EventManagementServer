@@ -19,7 +19,8 @@ const Sponsors = mongoose.model(
     category: {
       type: String,
       required: true
-    }
+    },
+    orderNumber: Number
   })
 );
 
@@ -30,7 +31,8 @@ function validateSponsor(sponsor) {
     description: Joi.string().allow(""),
     websiteURL: Joi.string().allow(""),
     imageURL: Joi.string().allow(""),
-    category: Joi.string().required()
+    category: Joi.string().required(),
+    orderNumber: Joi.allow("")
   };
   return Joi.validate(sponsor, schema);
 }

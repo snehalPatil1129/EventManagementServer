@@ -20,7 +20,8 @@ router.post("/", async (req, res) => {
       "description",
       "websiteURL",
       "imageURL",
-      "category"
+      "category",
+      "orderNumber"
     ])
   );
   try {
@@ -46,7 +47,8 @@ router.put("/:id", async (req, res) => {
         "description",
         "websiteURL",
         "imageURL",
-        "category"
+        "category",
+        "orderNumber"
       ]),
       { new: true }
     );
@@ -79,7 +81,8 @@ router.get("/event/:id", async (req, res) => {
     const sponsor = await Sponsors.find()
       .where("event")
       .equals(req.params.id)
-      .populate("event");
+      .populate("event")
+      .sort({ orderNumber: "ascending" });
     if (!sponsor)
       return res
         .status(404)
