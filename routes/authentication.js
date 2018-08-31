@@ -6,6 +6,7 @@ const {
   generatePassword,
   sendPasswordViaEmail
 } = require("../models/attendee");
+const { Speaker } = require("../models/speaker");
 
 const bcrypt = require("bcrypt");
 const generator = require("generate-password");
@@ -52,8 +53,13 @@ router.post("/appAuth", async (req, res) => {
     if (error) return res.status(404).send(error.details[0].message);
 
     let user = await Attendee.findOne({ email: req.body.email });
-    if (!user)
-      return res.status(404).send("No User found with this email Id...");
+
+    if (!user) {
+      speaker = await Speaker.findOne({ email: req.body.email });
+      if (!speaker) {
+        return res.status(404).send("No User found with this email Id...");
+      }
+    }
 
     const validPassword = await bcrypt.compare(
       req.body.password,
