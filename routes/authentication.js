@@ -49,29 +49,32 @@ router.post("/", async (req, res) => {
 //authenticate user to app
 router.post("/appAuth", async (req, res) => {
   try {
+    let validPassword = false;
     const { error } = validateAuthUser(req.body);
     if (error) return res.status(404).send(error.details[0].message);
 
     let user = await Attendee.findOne({ email: req.body.email });
+    let speaker = await Speaker.findOne({ email: req.body.email });
 
-    if (!user) {
-      speaker = await Speaker.findOne({ email: req.body.email });
-      if (!speaker) {
-        return res.status(404).send("No User found with this email Id...");
+    if (!user && !speaker)
+      return res.status(404).send("No User found with this email Id...");
+
+    if (user) {
+      validPassword = await bcrypt.compare(req.body.password, user.password); //return a boolean
+      if (validPassword === true) {
+        res.send(user);
       }
     }
 
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    ); //return a boolean
+    if (speaker) {
+      validPassword = await bcrypt.compare(req.body.password, speaker.password); //return a boolean
+      if (validPassword === true) {
+        res.send(speaker);
+      }
+    }
 
     if (validPassword === false)
       return res.status(404).send("Invalid Email/Password...");
-
-    if (validPassword === true) {
-      res.send(user);
-    }
   } catch (error) {
     res.send(error.message);
   }

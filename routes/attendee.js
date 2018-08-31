@@ -7,6 +7,8 @@ const {
   generatePassword,
   sendPasswordViaEmail
 } = require("../models/attendee");
+const { Speaker } = require("../models/speaker");
+
 const _ = require("lodash");
 
 router.get("/", async (req, res) => {
@@ -49,8 +51,10 @@ router.get("/event/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const userExists = await Attendee.findOne({email : req.body.email});
-    if(userExists) return res.status(404).send("User Already Exists");
+    const userExists = await Attendee.findOne({ email: req.body.email });
+    const speakerExists = await Speaker.findOne({ email: req.body.email });
+    if (userExists || speakerExists)
+      return res.status(404).send("User Already Exists");
     const { password, hashedPassword } = await generatePassword();
     const { error } = validateAttendee(req.body);
     if (error) return res.status(404).send(error.details[0].message);
@@ -119,10 +123,10 @@ router.delete("/:id", async (req, res) => {
   try {
     const result = await Attendee.findById(req.params.id);
     if (!result) return res.status(404).send("not found");
-    const isAdmin = result.roleName === 'Admin';
-    if(isAdmin) {
+    const isAdmin = result.roleName === "Admin";
+    if (isAdmin) {
       return res.status(404).send("Admin Cannot be deleted");
-    }else{
+    } else {
       const deleteResult = await Attendee.findByIdAndRemove(req.params.id);
       res.send(deleteResult);
     }
